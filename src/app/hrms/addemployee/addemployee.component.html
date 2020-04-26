@@ -1,0 +1,155 @@
+<body>
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div class="bg-light border-right" id="sidebar-wrapper">
+            <div class="sidebar-heading">
+                <a class="navbar-brand" href="index.html">
+                    <img src="assets/images/logo2.png" alt="Angular Project" />
+                </a>
+            </div>
+            <div class="list-group list-group-flush">
+                <a href="/hr/dashboard" class="list-group-item list-group-item-action bg-light">Dashboard</a>
+                <a routerLink="/addemployee" routerActiveLink="active"
+                    class="list-group-item list-group-item-action bg-light">Add Employee</a>
+                <a routerLink="/viewemployee" routerActiveLink="active"
+                    class="list-group-item list-group-item-action bg-light">View Employee</a>
+                <a href="/changepassword" class="list-group-item list-group-item-action bg-light">Change Password</a>
+                <a routerLink="/logout" routerActiveLink="active"
+                    class="list-group-item list-group-item-action bg-light">Logout</a>
+
+            </div>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+
+            <nav class="navbar navbar-expand-lg navbar-light hbgc border-bottom">
+                <!-- <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button> -->
+
+                <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button> -->
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                        <li class="nav-item active">
+                            <!-- <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a> -->
+                            <h5 class="nav-link">Welcome Human Resorce</h5>
+                        </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" href="#">Link</a>
+                        </li> -->
+                        <!-- <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Dropdown
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="#">Action</a>
+                                <a class="dropdown-item" href="#">Another action</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                            </div>
+                        </li> -->
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="container-fluid">
+                <h3 class="mt-2 col-xs-4 text-center">Add Employee</h3>
+                <div class="mb-3"></div>
+                <div class="alert alert-success" *ngIf="datasaved">
+                    {{massage}}
+                </div>
+                  <!-- {{addemployeeForm.value | json}} -->
+                <form [formGroup]="addemployeeForm" (ngSubmit)="onSubmit()">
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" [class.is-invalid]="name.invalid && name.touched" class="form-control"
+                                formControlName="name" placeholder="Name">
+                            <div *ngIf="name.invalid && name.touched">
+                                <small *ngIf="name.errors ?.required" class="text-danger">Name is required</small>
+                                <small *ngIf="name.errors ?.minlength" class="text-danger">Name must be atleast 3
+                                    characters</small>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <input type="email" [class.is-invalid]="email.invalid && email.touched" class="form-control"
+                                formControlName="email" placeholder="Email">
+                            <small *ngIf="email.errors ?.required" class="text-danger">Email is required</small>
+                        </div>
+                    </div>
+                    <div class="mb-4"></div>
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" [class.is-invalid]="mobile.invalid && mobile.touched"
+                                class="form-control" formControlName="mobile" placeholder="Mobile">
+                            <div *ngIf="mobile.invalid && mobile.touched">
+                                <small *ngIf="mobile.errors ?.required" class="text-danger">Mobile is required</small>
+                                <small *ngIf="mobile.errors ?.minlength" class="text-danger">Mobile must be atleast 10
+                                    characters</small>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <input type="date" [class.is-invalid]="dob.invalid && dob.touched" class="form-control"
+                                formControlName="dob" placeholder="Date of Birth">
+                                <small *ngIf="dob.errors ?.required" class="text-danger">Date of Birth is required</small>
+                        </div>
+                    </div>
+                    <div class="mb-4"></div>
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" [class.is-invalid]="address.invalid && address.touched"
+                                class="form-control" formControlName="address" placeholder="Address">
+                            <div *ngIf="address.invalid && address.touched">
+                                <small *ngIf="address.errors ?.required" class="text-danger">Address is required</small>
+
+                            </div>
+                        </div>
+                        <div class="col">
+                            <input type="text" [class.is-invalid]="city.invalid && city.touched" class="form-control"
+                                formControlName="city" placeholder="City">
+                            <div *ngIf="city.invalid && city.touched">
+                                <small *ngIf="city.errors ?.required" class="text-danger">City is required</small>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-4"></div>
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" [class.is-invalid]="state.invalid && state.touched" class="form-control"
+                                formControlName="state" placeholder="State">
+                            <div *ngIf="state.invalid && state.touched">
+                                <small *ngIf="state.errors ?.required" class="text-danger">State is required</small>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <input type="text" [class.is-invalid]="postalCode.invalid && postalCode.touched"
+                                class="form-control" formControlName="postalCode" placeholder="Postal Code">
+                            <div *ngIf="postalCode.invalid && postalCode.touched">
+                                <small *ngIf="postalCode.errors ?.required" class="text-danger">Postal Code is
+                                    required</small>
+                                <small *ngIf="postalCode.errors ?.minlength" class="text-danger">Post Code must be
+                                    atleast 6
+                                    characters</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-4"></div>
+                    <div class="row">
+                        <div class="col">
+                            <button type="submit" [disabled]='!addemployeeForm.valid' class="btn btn-success col-sm-12">Submit</button>
+                        </div>
+                        <div class="col">
+                            <button type="reset"  class="btn btn-danger col-sm-12">Reset</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+    </div>
+</body>
+<app-footer></app-footer>
