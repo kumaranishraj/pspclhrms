@@ -1,57 +1,89 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { EmployeeService } from 'src/app/auth/employee.service';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatTableDataSource} from '@angular/material/table';
-
+import { MatTableDataSource, MatSort, MatPaginator, MatDialog, MatTable } from '@angular/material';
+import { EditemployeeComponent } from '../editemployee/editemployee.component';
 @Component({
   selector: 'app-viewemployee',
   templateUrl: './viewemployee.component.html',
   styleUrls: ['./viewemployee.component.css']
 })
 export class ViewemployeeComponent implements OnInit {
+  constructor(private service: EmployeeService, public dialog: MatDialog) { }
+  displayedColumns: string[] = ['empId', 'name', 'email', 'mobile', 'dob', 'address', 'city', 'state', 'postalCode', 'action'];
+  dataSource = new MatTableDataSource<Employee>(ELEMENT_DATA);
 
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatTable, { static: true }) table: MatTable<any>;
 
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  public employees = [];
+  ELEMENT_DATA: Employee[] = [];
 
-  public employees =[];
-
-  constructor(private service : EmployeeService) { }
 
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
-    this.service.getAllEmployee()
-    .subscribe(data => this.employees=data)
+    this.dataSource.sort = this.sort;
+   
+    this.service.getAllEmployee().subscribe(
+      response => this.handleSuccessfulResponse(response)
+    );
+  }
+  handleSuccessfulResponse(response) {
+    this.ELEMENT_DATA = response;
+    console.log(this.ELEMENT_DATA);
+    this.dataSource = new MatTableDataSource<Employee>(this.ELEMENT_DATA);
+    this.dataSource.paginator = this.paginator;
+
+  }
+
+  openDialog(action, obj) {
+    obj.action = action;
+    const dialogRef = this.dialog.open(EditemployeeComponent, {
+      width: '450px',
+      data: obj
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      if (result.event == 'Update') {
+        this.updateRowData(result.employee);
+      }
+      else if(result.event == 'Delete'){
+        this.deleteRowData(result.employee);
+      }
+    });
+  }
+
+  updateRowData(row_obj) {
+    let eid = row_obj.eid;
+    this.service.updateEmployee(eid, row_obj).subscribe(
+      response => this.handleSuccessfulResponse(response)
+    );
+   
+  }
+  deleteRowData(row_obj):void{
+    let eid = row_obj.eid;
+    console.log(eid);
+    
+    this.service.deleteEmployee(eid).subscribe(data =>{
+      console.log(data);
+    }    );
   }
 
 }
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-  {position: 11, name: 'Sodium', weight: 22.9897, symbol: 'Na'},
-  {position: 12, name: 'Magnesium', weight: 24.305, symbol: 'Mg'},
-  {position: 13, name: 'Aluminum', weight: 26.9815, symbol: 'Al'},
-  {position: 14, name: 'Silicon', weight: 28.0855, symbol: 'Si'},
-  {position: 15, name: 'Phosphorus', weight: 30.9738, symbol: 'P'},
-  {position: 16, name: 'Sulfur', weight: 32.065, symbol: 'S'},
-  {position: 17, name: 'Chlorine', weight: 35.453, symbol: 'Cl'},
-  {position: 18, name: 'Argon', weight: 39.948, symbol: 'Ar'},
-  {position: 19, name: 'Potassium', weight: 39.0983, symbol: 'K'},
-  {position: 20, name: 'Calcium', weight: 40.078, symbol: 'Ca'},
+export interface Employee {
+  empId: number;
+  name: string;
+  email: string;
+  mobile: string;
+  dob: string;
+  address: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  action: string;
+
+}
+const ELEMENT_DATA: Employee[] = [
+  // {empId:1000,name:'Anish Kumar',email:'anish@gmail.com',mobile:'9713131787',dob:'05/05/2020',address:'Izzath Nagar',city:'Hyderabad',state:'Telangana',postalCode:'500084'}
 ];
