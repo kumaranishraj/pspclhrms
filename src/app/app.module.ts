@@ -25,7 +25,11 @@ import { DashboardHrmsComponent } from './hrms/dashboard-hrms/dashboard-hrms.com
 import { ChangepasswordComponent } from './changepassword/changepassword.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import {MatInputModule, MatTableModule, MatToolbarModule, MatDialogModule,MatDatepickerModule,MatNativeDateModule,
+  MatGridListModule,MatButtonModule } from '@angular/material';
+import { MatSortModule } from '@angular/material/sort'; 
+import { MatPaginatorModule } from '@angular/material/paginator'; 
+import { EditemployeeComponent } from './hrms/editemployee/editemployee.component';
 
 @NgModule({
   declarations: [
@@ -42,9 +46,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     DashboardHrmsComponent,
     DashboardPspclComponent,
     ChangepasswordComponent,
-    DashboardComponent
+    DashboardComponent,
+    EditemployeeComponent
     
   ],
+  entryComponents: [EditemployeeComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -54,7 +60,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatInputModule,
+    MatTableModule,
+    MatToolbarModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatDialogModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatGridListModule,
+    MatButtonModule
   ],
   providers: [EmployeeService],
   bootstrap: [AppComponent]

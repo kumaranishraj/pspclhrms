@@ -1,0 +1,59 @@
+<h4 style="text-align: center;">Edit Employee</h4>
+<mat-grid-list cols="2" rowHeight="3:1">
+    <mat-grid-tile>
+        <mat-form-field class="example-full-width">
+            <mat-label>Name</mat-label>
+            <input matInput placeholder="{{action}} Name" [(ngModel)]="local_data.name" name="name">
+        </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile>
+        <mat-form-field class="example-full-width">
+            <mat-label>Email</mat-label>
+            <input matInput placeholder="{{action}}" [(ngModel)]="local_data.email" name="email">
+        </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile>
+        <mat-form-field class="example-full-width">
+            <mat-label>Mobile</mat-label>
+            <input matInput placeholder="{{action}}" [(ngModel)]="local_data.mobile" name="mobile">
+        </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile>
+        <mat-form-field class="example-full-width">
+            <mat-label>Date of Birth</mat-label>
+            <input matInput [matDatepicker]="picker" placeholder="{{action}}" [(ngModel)]="local_data.dob" name="dob">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile>
+        <mat-form-field class="example-full-width">
+            <mat-label>Address</mat-label>
+            <input matInput placeholder="{{action}}" [(ngModel)]="local_data.address" name="address">
+        </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile>
+        <mat-form-field class="example-full-width">
+            <mat-label>City</mat-label>
+            <input matInput placeholder="{{action}}" [(ngModel)]="local_data.city" name="city">
+        </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile>
+        <mat-form-field class="example-full-width">
+            <mat-label>State</mat-label>
+            <input matInput placeholder="{{action}}" [(ngModel)]="local_data.state" name="state">
+        </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile>
+        <mat-form-field class="example-full-width">
+            <mat-label>Postal Code</mat-label>
+            <input matInput placeholder="{{action}}" [(ngModel)]="local_data.postalCode" name="postalCode">
+        </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile>
+        <button mat-raised-button color="primary" (click)="doAction()">{{action}}</button>
+    </mat-grid-tile>
+    <mat-grid-tile>
+        <button mat-flat-button color="accent" (click)="closeDialog()">Cancel</button>
+    </mat-grid-tile>
+</mat-grid-list>

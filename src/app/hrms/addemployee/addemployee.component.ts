@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { EmployeeService } from 'src/app/auth/employee.service';
-import { DatePipe } from '@angular/common';
+// import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-addemployee',
@@ -35,7 +35,7 @@ export class AddemployeeComponent implements OnInit {
   get postalCode() {
     return this.addemployeeForm.get('postalCode');
   }
-  constructor(private fb: FormBuilder, private service: EmployeeService,private datePipe: DatePipe) { }
+  constructor(private fb: FormBuilder, private service: EmployeeService) { }
   addemployeeForm = this.fb.group({
     name: ['', [Validators.required, Validators.minLength(3)]],
    
@@ -56,7 +56,7 @@ export class AddemployeeComponent implements OnInit {
     this.service.addEmployee(this.addemployeeForm.value)
     .subscribe(
      response=>console.log("Sucess",response),
-      error=>console.log("Error",error),
+     // error=>console.log("Error",error),
       ()=>{
         this.datasaved = true;
         this.massage = "Employee Added Sucessfully !";
